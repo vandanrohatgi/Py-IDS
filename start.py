@@ -1,5 +1,7 @@
 from portScans import ScanDetector
 from pingOfDeath import PingOfDeath
+from landattack import landAttack
+#from IPspoof import spoofCheck
 from scapy.sendrecv import sniff
 import sys
 
@@ -15,6 +17,8 @@ print('PY-IDS is online and looking for attacks')
 def main(pkt):
     scanObj.oneForAll(pkt)
     podObj.podDetect(pkt)
+    landAttack(pkt)
+    #spoofCheck(pkt)
 
 #sniff the packets and send them to functions to detect the attacks
 sniff(iface=interface,prn=main)
