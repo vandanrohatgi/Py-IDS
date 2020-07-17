@@ -1,7 +1,7 @@
 # Py-IDS
 An intrusion detection system made with python.
-<a href="https://github.com/vandanrohatgi/Py-IDS/blob/master/examples/attack_detect.mp4">
-
+![alt-text](https://github.com/vandanrohatgi/Py-IDS/blob/master/examples/attack_detect.gif)
+![alt-text](https://github.com/vandanrohatgi/Py-IDS/blob/master/examples/scan_detect.gif)
 To run enter:
 sudo python3 start.py 
 and provide the network-interface of your choice.
