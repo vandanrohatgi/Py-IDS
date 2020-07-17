@@ -1,6 +1,7 @@
 from portScans import ScanDetector
 from pingOfDeath import PingOfDeath
 from landattack import landAttack
+from synflood import synFlood
 #from IPspoof import spoofCheck
 #from smurf import Smurf
 from scapy.sendrecv import sniff
@@ -12,6 +13,7 @@ interface=input("Please enter the interface you want to run Py-IDS on:")
 
 scanObj=ScanDetector()
 podObj=PingOfDeath()
+synobj=synFlood()
 #smurfobj=Smurf()
 
 print('PY-IDS is online and looking for attacks')
@@ -20,6 +22,7 @@ def main(pkt):
     scanObj.oneForAll(pkt)
     podObj.podDetect(pkt)
     landAttack(pkt)
+    synobj.detectSyn(pkt)
     #smurfobj.detectSmurf(pkt)
     #spoofCheck(pkt)
 
