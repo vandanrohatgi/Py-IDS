@@ -2,9 +2,10 @@ from scapy.layers.inet import IP, TCP
 
 # class to detect syn flood attack
 class synFlood:
-    def __init__(self):
+    def __init__(self,hostIP):
         # dictionary to keep track of IPs that only sent syn packets and never completed connections
         self.flood = {}
+        self.myIP=hostIP
         self.synAttacked = False
         # if found more than 50 syn packets
         self.threshold = 50
@@ -16,7 +17,7 @@ class synFlood:
             if IP in pkt:
                 # get ip from packet
                 ip = pkt[IP].src
-                if ip != None and TCP in pkt:
+                if ip != None and TCP in pkt and ip==self.myIP:
                     flag = str(pkt[TCP].flags)
                     # check for syn packets
                     if flag == 'S':
@@ -40,7 +41,7 @@ class synFlood:
                     for address in self.flood.keys():
                         if self.flood[address]['count'] > self.threshold:
                             print(
-                                f'{self.WARNING}{self.BOLD}Warning! you may be under a syn-flood attack')
+                                f'{self.WARNING}{self.BOLD}Warning! you may be under a syn-flood attack from IP:'+str(address))
                             self.synAttacked = True
                             break
 
