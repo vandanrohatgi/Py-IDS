@@ -5,9 +5,10 @@ from scapy.layers.inet import IP
 
 
 class PingOfDeath:
-    def __init__(self):
+    def __init__(self,hostIP):
         # dictionary to store size of all icmp packets from different IPs
         self.pod = {}
+        self.myIP=hostIP
         # if size of a packet from a single IP is more than maximum alowed size
         self.sizethreshold = 65000
         self.podAttacked = False
@@ -20,14 +21,13 @@ class PingOfDeath:
                 ip = pkt[IP].src
                 # check if the protocol of packets is ICMP(ping packet)
                 if pkt[IP].proto == 1:
-                    if ip != None:
+                    if ip != None and ip==self.myIP:
                         # check if ip address is already inside dictionary
                         if ip not in self.pod.keys():
                             self.pod[ip] = {'size': len(pkt)}
                         else:
                             # else just update the size of packets received from that IP
-                            self.pod[ip]['size'] = self.pod[ip]['size'] + \
-                                len(pkt)
+                            self.pod[ip]['size'] = self.pod[ip]['size'] + len(pkt)
                         # finally iterate over all IP addresses and see if anyone crosses the threshold
                         for target in self.pod.keys():
                             if self.pod[target]['size'] > self.sizethreshold:
