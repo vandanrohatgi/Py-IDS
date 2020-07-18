@@ -17,7 +17,7 @@ class synFlood:
             if IP in pkt:
                 # get ip from packet
                 ip = pkt[IP].src
-                if ip != None and TCP in pkt and ip==self.myIP:
+                if ip != None and TCP in pkt:
                     flag = str(pkt[TCP].flags)
                     # check for syn packets
                     if flag == 'S':
