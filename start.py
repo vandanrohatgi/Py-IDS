@@ -3,6 +3,7 @@ from pingOfDeath import PingOfDeath
 from landattack import landAttack
 from synflood import synFlood
 from ddos import Ddos
+from deauth import Deauth
 #from IPspoof import spoofCheck
 #from smurf import Smurf
 from scapy.layers.inet import IP
@@ -22,6 +23,7 @@ scanObj=ScanDetector(myIP)
 podObj=PingOfDeath(myIP)
 synobj=synFlood(myIP)
 ddosobj=Ddos(myIP)
+deauthobj=Deauth()
 #smurfobj=Smurf(myIP)
 
 print('PY-IDS is online and looking for attacks')
@@ -32,6 +34,7 @@ def main(pkt):
     landAttack(pkt,myIP)
     ddosobj.detectDdos(pkt)
     synobj.detectSyn(pkt)
+    deauthobj.detectDeauth(pkt)
     #smurfobj.detectSmurf(pkt)
     #spoofCheck(pkt)
 
