@@ -4,11 +4,9 @@ from landattack import landAttack
 from synflood import synFlood
 from ddos import Ddos
 from deauth import Deauth
-#from IPspoof import spoofCheck
+from arp import arpSpoof
 #from smurf import Smurf
-from scapy.layers.inet import IP
-from scapy.sendrecv import sniff
-import sys
+from scapy.all import IP,sniff
 
 print('Initializing...')
 
@@ -17,14 +15,15 @@ print('Initializing...')
 dummyPkt = IP(dst='123.123.123.123')
 myIP = str(dummyPkt[IP].src)
 
-interface=input("Please enter the interface you want to run Py-IDS on:")
-
 scanObj=ScanDetector(myIP)
 podObj=PingOfDeath(myIP)
 synobj=synFlood(myIP)
 ddosobj=Ddos(myIP)
 deauthobj=Deauth()
+arpobj=arpSpoof(myIP)
 #smurfobj=Smurf(myIP)
+
+interface=input("Please enter the interface you want to run Py-IDS on:")
 
 print('PY-IDS is online and looking for attacks')
 
@@ -35,8 +34,8 @@ def main(pkt):
     ddosobj.detectDdos(pkt)
     synobj.detectSyn(pkt)
     deauthobj.detectDeauth(pkt)
+    arpobj.detectSpoof(pkt)
     #smurfobj.detectSmurf(pkt)
-    #spoofCheck(pkt)
 
 #sniff the packets and send them to functions to detect the attacks
-sniff(iface=interface,prn=main)
+sniff(iface=interface,prn=main,store=0)
